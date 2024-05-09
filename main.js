@@ -1203,7 +1203,7 @@ $("#soft-reset").click(function (event) {
 function guessModelFromUrl() {
     if (window.location.hostname.indexOf("bbc") === 0) return "B-DFS1.2";
     if (window.location.hostname.indexOf("master") === 0) return "Master";
-    return "B-DFS1.2";
+    return "PC128S";
 }
 
 $("#tape-menu a").on("click", function (e) {

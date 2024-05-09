@@ -128,6 +128,8 @@ export const allModels = [
         null,
         pickAnfs,
     ),
+    new Model("BBC Master Compact", ["MasterCompact"], ["compact/os51.rom","compact/utils.rom","compact/basic48.rom","compact/adfs210.rom"], false, true, masterSwram, WD1770),
+    new Model("PC128S Olivetti Prodest", ["PC128S"], ["pc128s/os51.rom","pc128s/utils.rom","pc128s/basic48.rom","pc128s/adfs210.rom"], false, true, masterSwram, WD1770),
     new Model("Tube65C02", [], ["tube/6502Tube.rom"], false, false), // Although this can not be explicitly selected as a model, it is required by the configuration builder later
 ];
 
