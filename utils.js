@@ -389,11 +389,13 @@ function detectKeyboardLayout() {
     if (navigator.language) {
         if (navigator.language.toLowerCase() === "en-gb") return "UK";
         if (navigator.language.toLowerCase() === "en-us") return "US";
+        if (navigator.language.toLowerCase() === "it-it") return "IT";
     }
     return "UK"; // Default guess of UK
 }
 
 const isUKlayout = detectKeyboardLayout() === "UK";
+const isITlayout = detectKeyboardLayout() === "IT";
 
 if (isFirefox()) {
     keyCodes.SEMICOLON = 59;
@@ -409,14 +411,28 @@ if (isFirefox()) {
     // Chrome
     // TODO: check other browsers
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode
-    keyCodes.SEMICOLON = 186;
-    // #~ key (not on US keyboard)
-    keyCodes.HASH = isUKlayout ? 222 : 223;
-    keyCodes.APOSTROPHE = isUKlayout ? 192 : 222;
-    keyCodes.MUTE = 173;
-    keyCodes.MINUS = 189;
-    keyCodes.EQUALS = 187;
-    keyCodes.BACK_QUOTE = isUKlayout ? 223 : 192;
+    if (isITlayout) {
+        keyCodes.SLASH = 189;
+        keyCodes.LEFT_SQUARE_BRACKET = 187;
+        keyCodes.BACKSLASH = 220,
+        keyCodes.RIGHT_SQUARE_BRACKET = 222;
+        keyCodes.EXTRA = 226;
+        keyCodes.SEMICOLON = 192;
+        keyCodes.HASH = 191;
+        keyCodes.APOSTROPHE = 186;
+        keyCodes.MINUS = 219;
+        keyCodes.EQUALS = 221;
+        keyCodes.BACK_QUOTE = 223;
+    } else {
+        keyCodes.SEMICOLON = 186;
+        // #~ key (not on US keyboard)
+        keyCodes.HASH = isUKlayout ? 222 : 223;
+        keyCodes.APOSTROPHE = isUKlayout ? 192 : 222;
+        keyCodes.MUTE = 173;
+        keyCodes.MINUS = 189;
+        keyCodes.EQUALS = 187;
+        keyCodes.BACK_QUOTE = isUKlayout ? 223 : 192;
+    }    
 }
 
 // Swap APOSTROPHE and BACK_QUOTE keys around for Mac users.  They are the opposite to what jsbeeb expects.
@@ -696,6 +712,15 @@ export function getKeyMap(keyLayout) {
         map(keyCodes.BACK_QUOTE, BBC.AT);
         map(keyCodes.BACKSLASH, BBC.PIPE_BACKSLASH);
         map(keyCodes.PAGEUP, BBC.UNDERSCORE_POUND);
+
+        // patch for italian keyboard
+        if (isITlayout) {
+            map(keyCodes.RIGHT_SQUARE_BRACKET, BBC.COLON_STAR); // maps to ]}
+            map(keyCodes.APOSTROPHE, BBC.AT);
+            map(keyCodes.BACKSLASH, BBC.PIPE_BACKSLASH);
+            map(keyCodes.EXTRA, BBC.UNDERSCORE_POUND); 
+            map(keyCodes.ALT_LEFT, BBC.SHIFTLOCK); 
+        }
     }
 
     // Master
