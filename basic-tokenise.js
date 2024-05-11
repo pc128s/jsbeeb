@@ -94,7 +94,7 @@ export async function create() {
         let result = "";
         text.split("\n").forEach(function (line, i) {
             if (line) {
-                result += tokeniseLine(line, 10 + i * 10);
+                result += tokeniseLine(line.trim(), 10 + i * 10);
             }
         });
         return result + "\r\xff";

@@ -1229,6 +1229,12 @@ function Light(name) {
     };
 }
 
+function isCompact() {
+    if (processor.model.name.indexOf("MasterCompact")!=-1) return true;
+    if (processor.model.name.indexOf("PC128S")!=-1) return true;
+    return false;
+}
+
 const cassette = new Light("motorlight");
 const caps = new Light("capslight");
 const shift = new Light("shiftlight");
@@ -1273,7 +1279,7 @@ const startPromise = Promise.all([audioHandler.initialise(), processor.initialis
                     });
                 })
                 .then(function (tokenised) {
-                    const idleAddr = processor.model.isMaster ? 0xe7e6 : 0xe581;
+                    const idleAddr = isCompact() ? 0xe917 : processor.model.isMaster ? 0xe7e6 : 0xe581;
                     const hook = processor.debugInstruction.add(function (addr) {
                         if (addr !== idleAddr) return;
                         const page = processor.readmem(0x18) << 8;
